@@ -1,11 +1,17 @@
 {
-  "name": "pokemon-api",
-  "version": "1.0.0",
-  "description": "A little project to learn and practice Node.js",
-  "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "TeddyAgt",
-  "license": "ISC"
+    "name": "pokemon-api",
+    "version": "1.0.0",
+    "description": "A little project to learn and practice Node.js",
+    "main": "app.js",
+    "scripts": {
+        "start": "nodemon app.js"
+    },
+    "author": "TeddyAgt",
+    "license": "ISC",
+    "dependencies": {
+        "express": "^4.21.2"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.9"
+    }
 }
