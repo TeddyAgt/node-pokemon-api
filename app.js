@@ -5,6 +5,12 @@ let pokemons = require("./mock-pokemon");
 const app = express();
 const port = 8000;
 
+// Middlewares
+app.use((req, res, next) => {
+    console.log(`URL: ${req.url}`);
+    next();
+});
+
 // Routes
 app.get("/", (req, res) => res.send("Hello express !"));
 
