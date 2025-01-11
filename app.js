@@ -29,3 +29,5 @@ app.use((req, res, next) => {
 require("./src/Routes/findAllPokemons")(app);
 require("./src/Routes/findPokemonById")(app);
 require("./src/Routes/createPokemon")(app);
+require("./src/Routes/updatePokemon")(app);
+require("./src/Routes/deletePokemon")(app);
