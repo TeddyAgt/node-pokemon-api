@@ -3,9 +3,10 @@ const express = require("express");
 const morgan = require("morgan");
 const favicon = require("serve-favicon");
 const bodyParser = require("body-parser");
-const { Sequelize } = require("sequelize");
+const { Sequelize, DataTypes } = require("sequelize");
 const { success, getUniqueId } = require("./helper");
 let pokemons = require("./mock-pokemon");
+const pokemonModel = require("./src/Models/pokemon");
 
 // Configuration **************************************************
 const app = express();
@@ -18,6 +19,36 @@ const sequelize = new Sequelize("pokedex", "root", "", {
     },
     logging: false,
 });
+const Pokemon = pokemonModel(sequelize, DataTypes);
+
+// Server **************************************************
+app.listen(port, () =>
+    console.log(`L'application a bien démarré sur http://localhost:${port}`)
+);
+
+sequelize
+    .authenticate()
+    .then((_) =>
+        console.log(
+            "La connection à la base de données a correctement été initialisée"
+        )
+    )
+    .catch((error) =>
+        console.error(
+            `Impossible de se connecter à la base de données. Erreur: ${error}`
+        )
+    );
+
+sequelize
+    .sync({ force: true })
+    .then((_) =>
+        console.log(`La base de données "Pokedex" a bien été synchronisée.`)
+    )
+    .catch((error) =>
+        console.error(
+            `Erreur lors de la synchronisation de la base de données "Pokedex". Erreur: ${error}`
+        )
+    );
 
 // Middlewares **************************************************
 app.use((req, res, next) => {
@@ -68,21 +99,3 @@ app.delete("/api/pokemons/:id", (req, res) => {
     const message = `Le pokémon ${deletedPokemon.name} a bien été supprimé`;
     res.json(success(message, deletedPokemon));
 });
-
-// Server **************************************************
-app.listen(port, () =>
-    console.log(`Application started on http://localhost:${port}`)
-);
-
-sequelize
-    .authenticate()
-    .then((_) =>
-        console.log(
-            "La connection à la base de données a correctement été initialisée"
-        )
-    )
-    .catch((error) =>
-        console.error(
-            `Impossible de se connecter à la base de données. Erreur: ${error}`
-        )
-    );
