@@ -1,17 +1,23 @@
+// Imports **************************************************
 const express = require("express");
+const morgan = require("morgan");
+const favicon = require("serve-favicon");
+
 const { success } = require("./helper");
 let pokemons = require("./mock-pokemon");
 
 const app = express();
 const port = 8000;
 
-// Middlewares
+// Middlewares **************************************************
 app.use((req, res, next) => {
     console.log(`URL: ${req.url}`);
     next();
-});
+})
+    .use(morgan("dev"))
+    .use(favicon(__dirname + "/favicon.ico"));
 
-// Routes
+// Routes **************************************************
 app.get("/", (req, res) => res.send("Hello express !"));
 
 app.get("/api/pokemons", (req, res) => {
@@ -26,7 +32,7 @@ app.get("/api/pokemons/:id", (req, res) => {
     res.json(success(message, pokemon));
 });
 
-// Server
+// Server **************************************************
 app.listen(port, () =>
     console.log(`Application started on http://localhost:${port}`)
 );
