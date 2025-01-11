@@ -7,15 +7,20 @@ module.exports = (app) => {
             where: { id: id },
         })
             .then((_) => {
-                Pokemon.findByPk(id).then((pokemon) => {
+                return Pokemon.findByPk(id).then((pokemon) => {
+                    if (pokemon === null) {
+                        const message =
+                            "Le pokémon demandé n'éxiste pas. Réessayez avec un autre identifiant.";
+                        return res.status(404).json({ message });
+                    }
                     const message = `Le pokémon ${pokemon.name} a bien été modifié.`;
                     res.json({ message, data: pokemon });
                 });
             })
-            .catch((error) =>
-                console.error(
-                    `Erreur lors de la modification du pokémon n° ${id}: ${error}`
-                )
-            );
+            .catch((error) => {
+                const message =
+                    "Le pokémon n'a pas pu être modifié. Réessayez dans quelques instants";
+                res.status(500).json({ messsage, data: error });
+            });
     });
 };

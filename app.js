@@ -31,3 +31,8 @@ require("./src/Routes/findPokemonById")(app);
 require("./src/Routes/createPokemon")(app);
 require("./src/Routes/updatePokemon")(app);
 require("./src/Routes/deletePokemon")(app);
+
+app.use(({ res }) => {
+    const message = "La ressource demandée est introuvable. Vérifiez l'URL.";
+    res.status(404).json({ message });
+});
