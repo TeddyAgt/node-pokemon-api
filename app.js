@@ -36,10 +36,20 @@ app.get("/api/pokemons/:id", (req, res) => {
 
 app.post("/api/pokemons", (req, res) => {
     const id = getUniqueId(pokemons);
-    const pokemonCreated = { ...req.body, ...{ id: id, created: new Date() } };
-    pokemons.push(pokemonCreated);
-    const message = `Le pokémon ${pokemonCreated.name} a bien été créé`;
-    res.json(success(message, pokemonCreated));
+    const createdPokemon = { ...req.body, ...{ id: id, created: new Date() } };
+    pokemons.push(createdPokemon);
+    const message = `Le pokémon ${createdPokemon.name} a bien été créé`;
+    res.json(success(message, createdPokemon));
+});
+
+app.put("/api/pokemons/:id", (req, res) => {
+    const id = parseInt(req.params.id);
+    const updatedPokemon = { ...req.body, id: id };
+    pokemons = pokemons.map((pokemon) => {
+        return pokemon.id === id ? updatedPokemon : pokemon;
+    });
+    const message = `Le pokémon ${updatedPokemon.name} a bien été modifié`;
+    res.json(success(message, updatedPokemon));
 });
 
 // Server **************************************************
