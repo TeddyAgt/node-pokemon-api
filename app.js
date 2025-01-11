@@ -26,6 +26,7 @@ app.use((req, res, next) => {
     .use(bodyParser.json());
 
 // Routes **************************************************
+require("./src/Routes/login")(app);
 require("./src/Routes/findAllPokemons")(app);
 require("./src/Routes/findPokemonById")(app);
 require("./src/Routes/createPokemon")(app);
