@@ -1,5 +1,7 @@
 const { Sequelize, DataTypes } = require("sequelize");
+const bcrypt = require("bcrypt");
 const PokemonModel = require("../Models/pokemon");
+const UserModel = require("../Models/user");
 const pokemons = require("./mock-pokemon");
 
 const sequelize = new Sequelize("pokedex", "root", "", {
@@ -12,6 +14,7 @@ const sequelize = new Sequelize("pokedex", "root", "", {
 });
 
 const Pokemon = PokemonModel(sequelize, DataTypes);
+const User = UserModel(sequelize, DataTypes);
 
 const initDb = () => {
     return sequelize
@@ -32,6 +35,15 @@ const initDb = () => {
                         )
                     );
             });
+
+            bcrypt
+                .hash("cosmo", 10)
+                .then((hash) =>
+                    User.create({ username: "cosmo", password: hash }).then(
+                        (user) => console.log(user.toJSON())
+                    )
+                );
+
             console.log(
                 `La base de données "Pokedex" a bien été synchronisée.`
             );
@@ -46,4 +58,5 @@ const initDb = () => {
 module.exports = {
     initDb,
     Pokemon,
+    User,
 };
