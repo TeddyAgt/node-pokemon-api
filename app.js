@@ -1,13 +1,12 @@
 // Imports **************************************************
 const express = require("express");
-const morgan = require("morgan");
 const favicon = require("serve-favicon");
 const bodyParser = require("body-parser");
 const sequelize = require("./src/db/sequelize");
 
 // Configuration **************************************************
 const app = express();
-const port = 8000;
+const port = process.env.PORT || 8000;
 
 // Server **************************************************
 app.listen(port, () =>
@@ -21,11 +20,13 @@ app.use((req, res, next) => {
     console.log(`URL: ${req.url}`);
     next();
 })
-    .use(morgan("dev"))
     .use(favicon(__dirname + "/favicon.ico"))
     .use(bodyParser.json());
 
 // Routes **************************************************
+app.get("/", (req, res) => {
+    res.json("Hello Cosmo ! 🐈");
+});
 require("./src/Routes/login")(app);
 require("./src/Routes/findAllPokemons")(app);
 require("./src/Routes/findPokemonById")(app);

@@ -4,7 +4,8 @@
     "description": "A little project to learn and practice Node.js",
     "main": "app.js",
     "scripts": {
-        "start": "nodemon app.js"
+        "start": "NODE_ENV=production node app.js",
+        "dev": "nodemon app.js"
     },
     "author": "TeddyAgt",
     "license": "ISC",
@@ -18,7 +19,6 @@
         "serve-favicon": "^2.5.0"
     },
     "devDependencies": {
-        "morgan": "^1.10.0",
         "nodemon": "^3.1.9"
     }
 }
